@@ -1,0 +1,12 @@
+cassandra:
+  image: cassandra:3.0.9
+  container_name: cql_stress
+  volumes:
+    - /var/lib/cassandra
+  ports:
+    - "7000:7000" # inter-node communication
+    - "7001:7001" # inter-node communication, ssl
+    - "7199:7199" # Cassandra JMX monitoring port
+    - "9042:9042" # cassandra client port
+    - "9160:9160" # cassandra client thrift port
+

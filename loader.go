@@ -1,41 +1,67 @@
 package cqlstress
 
-import "github.com/gocql/gocql"
+import (
+	"time"
 
-type Source struct {
+	"github.com/gocql/gocql"
+)
+
+type source struct {
 	Session *gocql.Session
 	Schema  Schema
 }
 
 const (
-	NormalDistribution      = 0
-	ExponentialDistribution = 1
+	StaticDistribution      = 0
+	NormalDistribution      = 1
+	ExponentialDistribution = 2
+	
+	// Specific to DateTime
+	LinearDistribution = 3
 )
 
 type DistributionType struct {
+}
+
+type StressConfig struct {
+	CqlConfig gocql.ClusterConfig
+
+	WarmUp   bool
+	Duration time.Duration
+
+	CasSchema   Schema
+	ReadWeight  int
+	WriteWeight int
+}
+
+func (sc StressConfig) NewSource(cfg gocql.ClusterConfig, warmup bool,
+	duration time.Duration, schema Schema) (Source Source, err Error) {
+
 }
 
 type distribution struct {
 	function func() interface{}
 }
 
-func (s Source) NewSource(sess gocql.Session, schema Schema) {
-}
-
-func (s Source) Write() {
-
-}
-
-func (s Source) Read() {
-
-}
-
 type Schema struct {
-	FieldMappings      map[string]interface{}
-	FieldDistributions map[string]distribution
-	PartitionKey       string
-	PrimaryKey         []string
-	ResolvedTableName  string
+	Fields            []Field
+	PrimaryKey        []string
+	ResolvedTableName string
+}
+
+type Field struct {
+	Name         string
+	Type         interface{}
+	Distribution DistributionType
+}
+
+func NewField(name string, type i
+
+// cell is used to leverage custom unmarshalling in the gocql driver so that we don't unmarshall
+// anything unnecessarily.
+type cell struct {
+	data []byte
+	info info.gocql
 }
 
 func (sc Schema) NewRow() {

@@ -1,0 +1,6 @@
+title = "Cql Stress Test"
+
+# Casssandra plugin just needs to hit 1 node per cluster for discovery.
+servers = ["127.0.0.1"]
+keyspace = "test"
+
